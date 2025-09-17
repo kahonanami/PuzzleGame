@@ -45,11 +45,18 @@ class MainWindow(MSFluentWindow):
         self.setting.settings_card.volumeChanged.connect(self.music_manager.set_volume)
 
         self.load_settings()
+        
+        # 延迟定位音乐卡片，确保窗口完全初始化
+        QTimer.singleShot(100, self.initial_position_music_card)
     
     
     def resizeEvent(self, event):
         """窗口大小改变时重新定位音乐卡片"""
         super().resizeEvent(event)
+        self.music_manager.reposition_music_card()
+    
+    def initial_position_music_card(self):
+        """初始定位音乐卡片"""
         self.music_manager.reposition_music_card()
 
     def load_settings(self):

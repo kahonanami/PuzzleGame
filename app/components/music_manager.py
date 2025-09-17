@@ -107,14 +107,15 @@ class MusicManager(QObject):
     def position_music_card(self):
         """定位音乐卡片到右下角"""
         if self.music_card_widget and self.parent_window:
-            # 获取主窗口的几何信息
-            main_rect = self.parent_window.geometry()
+            # 获取主窗口的实际大小
+            window_width = self.parent_window.width()
+            window_height = self.parent_window.height()
             card_width = self.music_card_widget.width()
             card_height = self.music_card_widget.height()
             
-            # 计算右下角位置
-            x = main_rect.width() - card_width - 10
-            y = main_rect.height() - card_height - 10
+            # 计算右下角位置（相对于父窗口）
+            x = window_width - card_width - 10  # 增加一些边距
+            y = window_height - card_height - 10  # 为底部状态栏留空间
             
             self.music_card_widget.move(x, y)
     
