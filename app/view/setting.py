@@ -74,10 +74,6 @@ class SettingsCard(GroupHeaderCardWidget):
         # 连接音乐信号到主窗口
         self.soundSwitch.checkedChanged.connect(self.musicToggled.emit)     # 发送音乐开关信号
         # self.volumeSlider.valueChanged.connect(self.volumeChanged.emit)     # 发送音量变化信号
-    
-    def start_music(self):
-        """启动音乐"""
-        pass
 
     def update_ui_from_config(self, sound=True, timer=True, theme=0):
         """从配置更新UI状态，不触发信号"""

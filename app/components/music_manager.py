@@ -20,7 +20,7 @@ class MusicCard(SimpleMediaPlayBar):
         self.player.setSource(url)
     
     def set_volume(self, volume):
-        """设置音量 (0-100)"""
+        """设置音量"""
         if hasattr(self.player, 'setVolume'):
             self.player.setVolume(int(volume))  # 确保传入整数
             print(f"音乐音量已设置为: {volume}%")
@@ -66,11 +66,11 @@ class MusicManager(QObject):
         """显示全局音乐卡片"""
         if self.music_card_widget is None:
             try:
-                # 直接创建音乐播放器
+                # 创建音乐播放器
                 self.music_card_widget = MusicCard(self.parent_window)
                 self.music_card_widget.setFixedSize(300, 50)
                 
-                # 设置当前音量
+                # 设置音量
                 self.music_card_widget.set_volume(self.current_volume)
                 
                 # 先隐藏卡片，避免闪烁
@@ -113,9 +113,9 @@ class MusicManager(QObject):
             card_width = self.music_card_widget.width()
             card_height = self.music_card_widget.height()
             
-            # 计算右下角位置（相对于父窗口）
-            x = window_width - card_width - 10  # 增加一些边距
-            y = window_height - card_height - 10  # 为底部状态栏留空间
+            # 计算右下角位置
+            x = window_width - card_width - 10
+            y = window_height - card_height - 10
             
             self.music_card_widget.move(x, y)
     

@@ -105,9 +105,9 @@ class AboutMeInterface(QFrame):
         infoItems = [
             ("🎓 专业", "信息安全"),
             ("💻 主要语言", "C/C++, Python"),
-            ("🔧 开发工具", "Ubuntu, VS Code, Git"),
+            ("🔧 开发工具", "Ubuntu，VS Code，Git"),
             ("🔒 兴趣爱好", "网络安全，二进制安全"),
-            ("📚 学习方向", "网络安全, 操作系统, 二进制分析")
+            ("📚 学习方向", "网络安全，操作系统，二进制分析")
         ]
         
         for label, value in infoItems:
