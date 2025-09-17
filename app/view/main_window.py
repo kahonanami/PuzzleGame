@@ -24,7 +24,7 @@ class MainWindow(MSFluentWindow):
         
         self.setWindowIcon(QIcon("app/resource/images/logo.png"))
         
-        self.resize(800, 600)
+        self.resize(1000, 600)
         
         # 初始化音乐管理器
         self.music_manager = MusicManager(self)
