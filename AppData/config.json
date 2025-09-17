@@ -10,5 +10,10 @@
     "QFluentWidgets": {
         "ThemeColor": "#ff009faa",
         "ThemeMode": "Light"
+    },
+    "setting": {
+        "sound": true,
+        "timer": false,
+        "theme": 0
     }
 }
