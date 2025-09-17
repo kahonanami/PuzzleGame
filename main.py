@@ -6,7 +6,7 @@ from app.common.config import cfg
 import sys, os
 
 # 设置应用主题
-cfg.set(cfg.themeMode, Theme.LIGHT)
+# cfg.set(cfg.themeMode, Theme.LIGHT)
 
 # 设置高DPI缩放
 if cfg.get(cfg.dpiScale) != "Auto":

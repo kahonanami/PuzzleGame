@@ -5,7 +5,6 @@ from qfluentwidgets import FluentIcon as FIF
 import json
 import os
 from pathlib import Path
-from app.common.music import MusicManager
 
 def load_game_config():
     """加载配置文件"""
@@ -42,9 +41,6 @@ class SettingsCard(GroupHeaderCardWidget):
         super().__init__(parent)
         self.setTitle("游戏设置")
         self.setBorderRadius(8)
-
-        # 初始化音乐管理器
-        self.music_manager = MusicManager(self)
 
         # 定义控件
         self.soundSwitch = SwitchButton()           # 音乐控件
@@ -91,17 +87,16 @@ class SettingsCard(GroupHeaderCardWidget):
         # 添加底部工具栏
         self.vBoxLayout.addLayout(self.bottomLayout)
 
-        # 先连接信号（除了主题切换信号，不然在切换窗口时会弹出切换为深色模式的通知）
-        self.saveButton.clicked.connect(self.save_settings)                 #保存设置 -> save_settings
-        self.resetButton.clicked.connect(self.reset_settings)               #重置设置 -> reset_settings
-        self.soundSwitch.checkedChanged.connect(self.music_manager.toggle_music)          #音乐开关 -> toggle_music
-        self.volumeSlider.valueChanged.connect(self.music_manager.change_volume)          #音量调节 -> change_volume
-
         # 加载配置
         self.load_settings()
         
-        # 在加载配置后再连接主题切换信号
+        # 在加载配置后再连接主题切换信号，不然会弹出切换的通知
         self.themeComboBox.currentIndexChanged.connect(self.change_theme)   #主题 -> change_theme
+        self.saveButton.clicked.connect(self.save_settings)                 #保存设置 -> save_settings
+        self.resetButton.clicked.connect(self.reset_settings)               #重置设置 -> reset_settings
+        # 音乐功能已禁用 - 保留UI组件但不连接功能
+        # self.soundSwitch.checkedChanged.connect(self.music_manager.toggle_music)          #音乐开关 -> toggle_music
+        # self.volumeSlider.valueChanged.connect(self.music_manager.change_volume)          #音量调节 -> change_volume
         
     def load_settings(self):
         """从配置文件加载设置"""
@@ -123,12 +118,12 @@ class SettingsCard(GroupHeaderCardWidget):
                 self.volumeSlider.setValue(volume)
                 self.timerSwitch.setChecked(settings.get('timer', True))
                 
-                # 应用音乐设置
-                self.music_manager.set_volume(volume)
-                if sound_enabled:
-                    self.music_manager.play()
-                else:
-                    self.music_manager.stop()
+                # 音乐功能已禁用 - 只保留UI状态
+                # self.music_manager.set_volume(volume)
+                # if sound_enabled:
+                #     self.music_manager.play()
+                # else:
+                #     self.music_manager.stop()
                 
                 # 应用主题设置（此时信号还未连接，不会触发通知）
                 theme_index = settings.get('theme', 0)
@@ -160,9 +155,9 @@ class SettingsCard(GroupHeaderCardWidget):
         self.themeComboBox.setCurrentIndex(0)
         setTheme(Theme.LIGHT)
         
-        # 应用默认音乐设置
-        self.music_manager.set_volume(70)
-        self.music_manager.play()
+        # 音乐功能已禁用 - 只保留UI默认状态
+        # self.music_manager.set_volume(70)
+        # self.music_manager.play()
 
     def change_theme(self, index):
         """更改主题"""
