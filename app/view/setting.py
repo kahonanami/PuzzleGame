@@ -189,7 +189,18 @@ class SettingsCard(GroupHeaderCardWidget):
             duration=2000,
             parent=self
         )
-
+    
+    def showProjects(self):
+        """显示项目信息"""
+        InfoBar.success(
+            title="我的项目",
+            content="拼图游戏 - 基于PyQt5和QFluentWidgets的拼图游戏，注重UI风格和用户体验",
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.TOP,
+            duration=4000,
+            parent=self
+        )
 
 class SettingInterface(QWidget):
     def __init__(self):

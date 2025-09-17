@@ -10,6 +10,7 @@ from app.view.setting import SettingInterface
 from .easy_puzzle import EasyPuzzleInterface
 from .normal_puzzle import NormalPuzzleInterface
 from .hard_puzzle import HardPuzzleInterface
+from .about_me import AboutMeInterface
 from app.components.music_manager import MusicManager
 
 class MainWindow(MSFluentWindow):
@@ -31,10 +32,12 @@ class MainWindow(MSFluentWindow):
         self.easy_puzzle = EasyPuzzleInterface()
         self.normal_puzzle = NormalPuzzleInterface()
         self.hard_puzzle = HardPuzzleInterface()    
+        self.about_me = AboutMeInterface()
         self.setting = SettingInterface()
         self.addSubInterface(self.easy_puzzle, FIF.GAME, "简单模式")
         self.addSubInterface(self.normal_puzzle, FIF.PLAY, "普通模式")
         self.addSubInterface(self.hard_puzzle, FIF.FLAG, "困难模式")
+        self.addSubInterface(self.about_me, FIF.INFO, "关于我", position = NavigationItemPosition.BOTTOM)
         self.addSubInterface(self.setting, FIF.SETTING, "设置", position = NavigationItemPosition.BOTTOM)
         
         # 连接设置页面的音乐信号到音乐管理器
