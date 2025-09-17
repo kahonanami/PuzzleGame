@@ -79,11 +79,23 @@ class AboutMeInterface(QFrame):
         mottoLabel.setStyleSheet("color: #0078d4; font-style: italic; font-size: 13px;")
         infoLayout.addWidget(mottoLabel)
         
+        github_and_blog_layout = QHBoxLayout()
+
         # GitHub按钮
         githubButton = PrimaryPushButton(FIF.GITHUB, "访问我的 GitHub")
         githubButton.clicked.connect(self.openGitHub)
         githubButton.setFixedWidth(200)
-        infoLayout.addWidget(githubButton)
+        # infoLayout.addWidget(githubButton)
+        github_and_blog_layout.addWidget(githubButton)
+
+        # MyBlog按钮
+        blogButton = PrimaryPushButton(FIF.LINK, "访问我的 Blog")
+        blogButton.clicked.connect(lambda: QDesktopServices.openUrl(QUrl("https://azusaq.moe/")))
+        blogButton.setFixedWidth(200)
+        github_and_blog_layout.addWidget(blogButton)
+
+        infoLayout.addLayout(github_and_blog_layout)
+        # infoLayout.addWidget(blogButton)
         
         infoLayout.addItem(QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding))
         
@@ -105,7 +117,7 @@ class AboutMeInterface(QFrame):
         infoItems = [
             ("🎓 专业", "信息安全"),
             ("💻 主要语言", "C/C++, Python"),
-            ("🔧 开发工具", "Ubuntu，VS Code，Git"),
+            ("🔧 开发工具", "WSL，VS Code，Git"),
             ("🔒 兴趣爱好", "网络安全，二进制安全"),
             ("📚 学习方向", "网络安全，操作系统，二进制分析")
         ]
