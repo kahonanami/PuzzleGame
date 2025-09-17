@@ -1,11 +1,11 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QGroupBox, QCheckBox, QSlider
-from PyQt5.QtCore import Qt, QUrl
-from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
+from PyQt5.QtCore import Qt
 from qfluentwidgets import GroupHeaderCardWidget, PushButton, ComboBox, SearchLineEdit, IconWidget, InfoBarIcon, BodyLabel, PrimaryPushButton, FluentIcon, SwitchButton, Slider, Theme, setTheme, Flyout, InfoBar, InfoBarPosition
 from qfluentwidgets import FluentIcon as FIF
 import json
 import os
 from pathlib import Path
+from app.common.music import MusicManager
 
 def load_game_config():
     """加载配置文件"""
@@ -43,9 +43,8 @@ class SettingsCard(GroupHeaderCardWidget):
         self.setTitle("游戏设置")
         self.setBorderRadius(8)
 
-        # 初始化音乐播放器
-        self.media_player = QMediaPlayer()
-        self.setup_music()
+        # 初始化音乐管理器
+        self.music_manager = MusicManager(self)
 
         # 定义控件
         self.soundSwitch = SwitchButton()           # 音乐控件
@@ -95,8 +94,8 @@ class SettingsCard(GroupHeaderCardWidget):
         # 先连接信号（除了主题切换信号，不然在切换窗口时会弹出切换为深色模式的通知）
         self.saveButton.clicked.connect(self.save_settings)                 #保存设置 -> save_settings
         self.resetButton.clicked.connect(self.reset_settings)               #重置设置 -> reset_settings
-        self.soundSwitch.checkedChanged.connect(self.toggle_music)          #音乐开关 -> toggle_music
-        self.volumeSlider.valueChanged.connect(self.change_volume)          #音量调节 -> change_volume
+        self.soundSwitch.checkedChanged.connect(self.music_manager.toggle_music)          #音乐开关 -> toggle_music
+        self.volumeSlider.valueChanged.connect(self.music_manager.change_volume)          #音量调节 -> change_volume
 
         # 加载配置
         self.load_settings()
@@ -125,11 +124,11 @@ class SettingsCard(GroupHeaderCardWidget):
                 self.timerSwitch.setChecked(settings.get('timer', True))
                 
                 # 应用音乐设置
-                self.media_player.setVolume(volume)
+                self.music_manager.set_volume(volume)
                 if sound_enabled:
-                    self.media_player.play()
+                    self.music_manager.play()
                 else:
-                    self.media_player.stop()
+                    self.music_manager.stop()
                 
                 # 应用主题设置（此时信号还未连接，不会触发通知）
                 theme_index = settings.get('theme', 0)
@@ -162,53 +161,8 @@ class SettingsCard(GroupHeaderCardWidget):
         setTheme(Theme.LIGHT)
         
         # 应用默认音乐设置
-        self.media_player.setVolume(70)
-        self.media_player.play()
-
-    def setup_music(self):
-        """设置音乐播放器"""
-        try:
-            # 获取音乐文件路径
-            current_file = Path(__file__).resolve()
-            project_root = current_file.parent.parent.parent
-            music_file = project_root / "app" / "resource" / "music.mp3"
-            
-            if music_file.exists():
-                # 设置音乐文件
-                url = QUrl.fromLocalFile(str(music_file))
-                content = QMediaContent(url)
-                self.media_player.setMedia(content)
-                
-                # 设置循环播放
-                self.media_player.setLoops(QMediaPlayer.Infinite)
-                
-                # 设置默认音量
-                self.media_player.setVolume(70)
-            else:
-                print(f"音乐文件不存在: {music_file}")
-                
-        except Exception as e:
-            print(f"设置音乐播放器失败: {e}")
-    
-    def toggle_music(self, checked):
-        """切换音乐播放状态"""
-        try:
-            if checked:
-                self.media_player.play()
-                print("开始播放音乐")
-            else:
-                self.media_player.stop()
-                print("停止播放音乐")
-        except Exception as e:
-            print(f"切换音乐播放状态失败: {e}")
-    
-    def change_volume(self, value):
-        """调整音量大小"""
-        try:
-            self.media_player.setVolume(value)
-            print(f"音量调整为: {value}%")
-        except Exception as e:
-            print(f"调整音量失败: {e}")
+        self.music_manager.set_volume(70)
+        self.music_manager.play()
 
     def change_theme(self, index):
         """更改主题"""
