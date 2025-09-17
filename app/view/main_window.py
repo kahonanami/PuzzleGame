@@ -42,7 +42,7 @@ class MainWindow(MSFluentWindow):
         
         # 连接设置页面的音乐信号到音乐管理器
         self.setting.settings_card.musicToggled.connect(self.music_manager.toggle_music)
-        self.setting.settings_card.volumeChanged.connect(self.music_manager.set_volume)
+        # self.setting.settings_card.volumeChanged.connect(self.music_manager.set_volume) # SimpleMediaPlayBar自带音量调节
 
         self.load_settings()
         

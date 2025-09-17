@@ -13,7 +13,7 @@
     },
     "setting": {
         "sound": true,
-        "timer": false,
-        "theme": 0
+        "timer": true,
+        "theme": 1
     }
 }
