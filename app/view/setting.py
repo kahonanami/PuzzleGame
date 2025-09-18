@@ -12,6 +12,7 @@ class SettingsCard(GroupHeaderCardWidget):
     # 定义信号
     musicToggled = pyqtSignal(bool)  # 音乐开关信号
     volumeChanged = pyqtSignal(int)  # 音量变化信号
+    timerToggled = pyqtSignal(bool)  # 计时器开关信号
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -73,6 +74,7 @@ class SettingsCard(GroupHeaderCardWidget):
         
         # 连接音乐信号到主窗口
         self.soundSwitch.checkedChanged.connect(self.musicToggled.emit)     # 发送音乐开关信号
+        self.timerSwitch.checkedChanged.connect(self.timerToggled.emit)     # 发送计时器开关信号
         # self.volumeSlider.valueChanged.connect(self.volumeChanged.emit)     # 发送音量变化信号
 
     def update_ui_from_config(self, sound=True, timer=True, theme=0):
@@ -199,6 +201,7 @@ class SettingsCard(GroupHeaderCardWidget):
         )
 
 class SettingInterface(QWidget):
+    """设置接口"""
     def __init__(self):
         super().__init__()
         self.setObjectName("Setting")

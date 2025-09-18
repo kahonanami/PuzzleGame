@@ -1,6 +1,3 @@
-"""
-音乐管理器
-"""
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QObject, pyqtSignal, QTimer
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel
@@ -13,6 +10,10 @@ from pathlib import Path
 import io
 from mutagen import File
 from mutagen.id3 import ID3NoHeaderError
+
+"""
+音乐管理器
+"""
 
 # TODO: music manager模块目前比较混乱，后续有时间可以重构一下
 
@@ -239,11 +240,11 @@ class MusicCard(SimpleMediaPlayBar):
         card_width = self.width()
         card_height = self.height()
 
-        x = window_width - card_width - 20
+        x = window_width - card_width - 20 # 坐标不一样是为了对齐图标
         y = window_height - card_height - 20
         self.move(x, y)
     
-    def update_music_info(self, title="背景音乐", artist="拼图游戏"):
+    def update_music_info(self, title="Music", artist="Unknown Artist"):
         """更新音乐信息"""
         self.music_title.setText(title)
         self.artist_name.setText(artist)

@@ -1,13 +1,9 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout
+from app.components.base_puzzle import BasePuzzleInterface
 
-class NormalPuzzleInterface(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setObjectName("NormalPuzzle")
-        layout = QVBoxLayout()
-        label = QLabel("普通拼图模式")
-        layout.addWidget(label)
-        self.setLayout(layout)
 
-    def display(self):
-        print("Displaying Normal Puzzle Interface")
+class NormalPuzzleInterface(BasePuzzleInterface):
+    """普通难度拼图 - 5x5 网格"""
+    
+    def __init__(self, parent=None):
+        # 调用基类构造函数，设置为 5x5 网格
+        super().__init__(grid_size=4, object_name="normal-puzzle-interface", parent=parent)

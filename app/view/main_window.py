@@ -12,6 +12,7 @@ from .normal_puzzle import NormalPuzzleInterface
 from .hard_puzzle import HardPuzzleInterface
 from .about_me import AboutMeInterface
 from app.components.music_manager import MusicManager
+from app.components.base_puzzle import setTimerEnabled
 
 class MainWindow(MSFluentWindow):
     def __init__(self):
@@ -29,9 +30,9 @@ class MainWindow(MSFluentWindow):
         # 初始化音乐管理器
         self.music_manager = MusicManager(self)
         
-        self.easy_puzzle = EasyPuzzleInterface()
-        self.normal_puzzle = NormalPuzzleInterface()
-        self.hard_puzzle = HardPuzzleInterface()    
+        self.easy_puzzle = EasyPuzzleInterface(self)
+        self.normal_puzzle = NormalPuzzleInterface(self)
+        self.hard_puzzle = HardPuzzleInterface(self)    
         self.about_me = AboutMeInterface()
         self.setting = SettingInterface()
         self.addSubInterface(self.easy_puzzle, FIF.GAME, "简单模式")
@@ -42,6 +43,8 @@ class MainWindow(MSFluentWindow):
         
         # 连接设置页面的音乐信号到音乐管理器
         self.setting.settings_card.musicToggled.connect(self.music_manager.toggle_music)
+        # 连接设置页面的计时器信号
+        self.setting.settings_card.timerToggled.connect(self.toggle_timer)
         # self.setting.settings_card.volumeChanged.connect(self.music_manager.set_volume) # SimpleMediaPlayBar自带音量调节
 
         self.load_settings()
@@ -58,6 +61,14 @@ class MainWindow(MSFluentWindow):
     def initial_position_music_card(self):
         """初始定位音乐卡片"""
         self.music_manager.reposition_music_card()
+    
+    def toggle_timer(self, enabled):
+        """切换计时器启用状态"""
+        setTimerEnabled(enabled)
+        # 更新所有拼图界面的计时器显示
+        self.easy_puzzle.updateTimerVisibility()
+        self.normal_puzzle.updateTimerVisibility()
+        self.hard_puzzle.updateTimerVisibility()
 
     def load_settings(self):
         """加载设置"""
@@ -79,9 +90,11 @@ class MainWindow(MSFluentWindow):
                     self.music_manager.toggle_music(True)
                 
                 # 应用计时器设置
-                if timer:
-                    # TODO: 写个计时器
-                    pass
+                setTimerEnabled(timer)
+                # 更新窗口
+                self.easy_puzzle.updateTimerVisibility()
+                self.normal_puzzle.updateTimerVisibility()
+                self.hard_puzzle.updateTimerVisibility()
                 
                 # 应用主题设置
                 themes = {0: Theme.LIGHT, 1: Theme.DARK, 2: Theme.AUTO}
@@ -90,4 +103,8 @@ class MainWindow(MSFluentWindow):
             # 这里走默认设置
             self.setting.settings_card.update_ui_from_config(True, True, 0)
             self.music_manager.toggle_music(True)
+            setTimerEnabled(True)
+            self.easy_puzzle.updateTimerVisibility()
+            self.normal_puzzle.updateTimerVisibility()
+            self.hard_puzzle.updateTimerVisibility()
             setTheme(Theme.LIGHT)

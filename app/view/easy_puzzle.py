@@ -1,13 +1,8 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout
+from app.components.base_puzzle import BasePuzzleInterface
 
-class EasyPuzzleInterface(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setObjectName("EasyPuzzle")
-        layout = QVBoxLayout()
-        label = QLabel("简单拼图模式")
-        layout.addWidget(label)
-        self.setLayout(layout)
 
-    def display(self):
-        print("Displaying Easy Puzzle Interface")
+class EasyPuzzleInterface(BasePuzzleInterface):
+    """简单难度拼图 - 4x4 网格"""
+    
+    def __init__(self, parent=None):
+        super().__init__(grid_size=3, object_name="easy-puzzle-interface", parent=parent)

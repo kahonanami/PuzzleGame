@@ -12,7 +12,7 @@
         "ThemeMode": "Light"
     },
     "setting": {
-        "sound": true,
+        "sound": false,
         "timer": true,
         "theme": 0
     }
