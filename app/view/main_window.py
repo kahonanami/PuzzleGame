@@ -26,7 +26,12 @@ class MainWindow(MSFluentWindow):
         self.setWindowIcon(QIcon("app/resource/images/logo.png"))
         
         self.resize(1000, 600)
-        
+
+        # 窗口居中
+        rect = QApplication.desktop().availableGeometry()
+        x, y = rect.width() // 2, rect.height() // 2
+        self.move(x - self.width() // 2, y - self.height() // 2)
+
         # 初始化音乐管理器
         self.music_manager = MusicManager(self)
         
